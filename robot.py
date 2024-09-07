@@ -1,35 +1,5 @@
-class robot:
-    def __init__(self, idNumber: int, iPoint: int) -> None:
-        self.ID = idNumber
-        self.point = iPoint
-
-    # ensures result of direction calculation below is between 0 and 360
-    def circle(self, angle: int):
-        return angle % 360
-
-    def turn(self, direction: str, dPoint: int):
-        # turn robot and determine which direction it's facing
-        if direction == 'RIGHT':
-            dPoint += 45
-        else:
-            dPoint -= 45
-
-        dPoint = self.circle(dPoint)
-
-        return dPoint
-    
-    # rounding to nearest mutliple of 45 to correspond to 8 directions, remove if more precision is developed. 
-    def round(self, roundPoint):
-        return 45*(round(roundPoint/45,0))
-
-
-def main():
-
-    i = 0
-
-    new = 1
-
-    compass = {
+class Robot:
+    COMPASS = {
         0:   'north',
         45:  'northeast',
         90:  'east', 
@@ -40,7 +10,42 @@ def main():
         315: 'northwest'
     }
 
-    robotList = {}
+    ANGLE_STEP = 45
+
+    def __init__(self, id: int, point: int) -> None:
+        self.id = id
+        self.point = point
+
+    # ensures result of direction calculation below is between 0 and 360
+    def circle(self, angle: int):
+        return angle % 360
+
+    def turn(self, direction: str, point: int):
+        # turn robot and determine which direction it's facing
+        if direction == 'RIGHT':
+            point += Robot.ANGLE_STEP
+        else:
+            point -= Robot.ANGLE_STEP
+
+        point = self.circle(point)
+
+        return point
+    
+    # rounding to nearest mutliple of 45 to correspond to 8 directions, remove if more precision is developed. 
+    def round(self, round_point):
+        return Robot.ANGLE_STEP*(round(round_point/Robot.ANGLE_STEP,0))
+    
+    def get_current_direction(self):
+        return Robot.COMPASS[self.round(self.point)]
+
+
+def main():
+
+    i = 0
+
+    new = 1
+
+    robotMap = {}
 
     currentRobot = 0
 
@@ -56,19 +61,19 @@ def main():
                 iRobot = input('Invalid response. Would you like to create a robot? Type "YES" or "NO"\n').upper()
 
             if iRobot == 'YES':
-                num = len(robotList)
-                robotList[num] = robot(len(robotList), 0)
-                currentRobot = robotList[num]
+                num = len(robotMap)
+                robotMap[num] = Robot(len(robotMap), 0)
+                currentRobot = robotMap[num]
             
             # check if at least one robot
-            elif iRobot == 'NO' and len(robotList) == 0:
+            elif iRobot == 'NO' and len(robotMap) == 0:
                 print('There are currently no robots created. I will create one for you.\n')                
-                num = len(robotList)
-                robotList[num] = robot(len(robotList), 0)
-                currentRobot = robotList[num]
+                num = len(robotMap)
+                robotMap[num] = robot(len(robotMap), 0)
+                currentRobot = robotMap[num]
 
         print('--------------------------')
-        print('Robot', currentRobot.ID, 'is currently facing ' + compass[currentRobot.point])
+        print('Robot', currentRobot.id, 'is currently facing ' + currentRobot.get_current_direction())
         direction = input('Please enter a direction: LEFT or RIGHT, or EXIT to quit.\n').upper()
         if direction == 'EXIT':
             i = 1
@@ -88,7 +93,7 @@ def main():
                 roundPoint = round(currentRobot.point)
 
                 print('--------------------------')
-                print('Robot', currentRobot.ID, 'is currently facing '  + compass[roundPoint])
+                print('Robot', currentRobot.id, 'is currently facing '  + currentRobot.get_current_direction())
                 moveAgain = input('Move again, or create a new robot?\n1. Move again\n2.Create a new robot\n')
 
                 while moveAgain != '1' and moveAgain != '2':
