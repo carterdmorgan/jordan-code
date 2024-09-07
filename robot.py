@@ -12,25 +12,21 @@ class Robot:
 
     ANGLE_STEP = 45
 
-    def __init__(self, id: int, point: int) -> None:
-        self.id = id
+    def __init__(self, point = 0) -> None:
         self.point = point
 
     # ensures result of direction calculation below is between 0 and 360
-    def circle(self, angle: int):
-        return angle % 360
-
-    def turn(self, direction: str, point: int):
-        # turn robot and determine which direction it's facing
-        if direction == 'RIGHT':
-            point += Robot.ANGLE_STEP
-        else:
-            point -= Robot.ANGLE_STEP
-
-        point = self.circle(point)
-
-        return point
+    def circle(self):
+        self.point % 360
     
+    def turn_right(self) -> None:
+        self.point += Robot.ANGLE_STEP
+        self.circle()
+    
+    def turn_left(self) -> None:
+        self.point -= Robot.ANGLE_STEP
+        self.circle()
+
     # rounding to nearest mutliple of 45 to correspond to 8 directions, remove if more precision is developed. 
     def round(self, round_point):
         return Robot.ANGLE_STEP*(round(round_point/Robot.ANGLE_STEP,0))
@@ -40,71 +36,32 @@ class Robot:
 
 
 def main():
-
-    i = 0
-
-    new = 1
-
-    robotMap = {}
-
-    currentRobot = 0
+    robot_map = {}
+    current_robot = Robot()
+    current_key = '0'
+    robot_map[current_key] = current_robot
 
     # allowed commands
-    list = ['LEFT', 'RIGHT', 'EXIT']
+    valid_commands = ['L', 'R', 'Q']
 
-    while i == 0:
+    while True:
+        current_input = input('What would you like to do?\n')
+        if current_input.isdigit():
+            # TODO: Initialize new robot
+            print("valid digit command")
+        elif current_input in valid_commands:
+            if current_input == "L":
+                current_robot.turn_left()
+            elif current_input == "R":
+                current_robot.turn_right()
+            elif current_input == "Q":
+                break
 
-        # activates if user has selected to build a new robot, or if no robots have been built
-        if new == 1:
-            iRobot = input('Would you like to create a robot? Type "YES" or "NO"\n').upper()
-            while iRobot != 'YES' and iRobot != 'NO':
-                iRobot = input('Invalid response. Would you like to create a robot? Type "YES" or "NO"\n').upper()
-
-            if iRobot == 'YES':
-                num = len(robotMap)
-                robotMap[num] = Robot(len(robotMap), 0)
-                currentRobot = robotMap[num]
-            
-            # check if at least one robot
-            elif iRobot == 'NO' and len(robotMap) == 0:
-                print('There are currently no robots created. I will create one for you.\n')                
-                num = len(robotMap)
-                robotMap[num] = robot(len(robotMap), 0)
-                currentRobot = robotMap[num]
-
-        print('--------------------------')
-        print('Robot', currentRobot.id, 'is currently facing ' + currentRobot.get_current_direction())
-        direction = input('Please enter a direction: LEFT or RIGHT, or EXIT to quit.\n').upper()
-        if direction == 'EXIT':
-            i = 1
-
+            print(f"Robot {current_key} is facing {current_robot.get_current_direction()}")
         else:
-
-            # check if command is allowed
-            while direction not in list:
-                print('--------------------------')
-                direction = input('Please enter a valid direction: LEFT or RIGHT, or EXIT to quit.\n').upper()
-
-            if direction == 'EXIT':
-                i = 1
-
-            else:
-                currentRobot.point = currentRobot.turn(direction, currentRobot.point)
-                roundPoint = round(currentRobot.point)
-
-                print('--------------------------')
-                print('Robot', currentRobot.id, 'is currently facing '  + currentRobot.get_current_direction())
-                moveAgain = input('Move again, or create a new robot?\n1. Move again\n2.Create a new robot\n')
-
-                while moveAgain != '1' and moveAgain != '2':
-                    print('--------------------------')
-                    moveAgain = input('Invalid repsonse. Move again, or create a new robot?\n1. Move again\n2. Create a new robot\n')
-
-
-                if moveAgain == '2':
-                    new = 1
-                else:
-                    new = 0    
+            print("Invalid command. Please try again.")
+    
+    print("Robot shutting down.")
 
 
 main()
