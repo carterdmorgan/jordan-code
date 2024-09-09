@@ -47,6 +47,7 @@ class Inventory:
         for key, value in order.purchase.items():
             self.remove_product(key, value)
 
+# Extracting commonly used functionality to its own method. Explained in more detail below.
 def get_valid_product_quantity():
     while True:
         product_quantity = input('Please provide the product quantity\n')
@@ -55,6 +56,8 @@ def get_valid_product_quantity():
         elif product_quantity.isdigit() == True:
             return int(product_quantity)
         
+# Extracting somewhat complicated functionality to its own method to improve readability.
+# Explained in more detail below.
 def handle_new_order(inventory: Inventory):
     order = Order()
     while True:
@@ -66,7 +69,7 @@ def handle_new_order(inventory: Inventory):
             break
         elif order_action not in ['buy', 'cancel']:
             # input validation for order_quantity 
-            # Again, remember DRY
+            # Remember DRY (Don't Repeat Yourself)
             order_quantity = get_valid_product_quantity()
             order.add_purchase(order_action, order_quantity)
             print(f'Added product: {order_action}, quantity: {order_quantity}')
