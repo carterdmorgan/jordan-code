@@ -55,12 +55,12 @@ def get_valid_product_quantity():
         elif product_quantity.isdigit() == True:
             return int(product_quantity)
         
-def handle_new_order():
+def handle_new_order(inventory: Inventory):
     order = Order()
     while True:
         order_action = input('Please provide the name of a product you would like to order. When finished, enter BUY or CANCEL to complete.\n').lower()
         if order_action == 'buy':
-            main_inventory.process_order(order)
+            inventory.process_order(order)
             break
         elif order_action == 'cancel':
             break
@@ -105,7 +105,12 @@ def main():
             # Keep in mind the DRY principle: Don't Repeat Yourself. If you find yourself copying and pasting
             # code, it should probably be its own function
             product_quantity = get_valid_product_quantity()
-            main_inventory.remove_product(product_name, product_quantity)
+            # Remember, you need to handle the error you're throwing earlier unelss you want your
+            # whole program to break if someone tries to remove an invalid product
+            try:
+                main_inventory.remove_product(product_name, product_quantity)
+            except ValueError as e:
+                print({e})
         elif user_action == '3':
             product_name = input('Please provide the name of the product you would like to check\n').lower()
             print(f'Current {product_name} stock: {main_inventory.check_stock(product_name)}\n')
@@ -114,7 +119,7 @@ def main():
             # You're getting too deep in one method. Pay attention to how far you're indenting. A lot of
             # people believe you shouldn't indent more than twice in a method. That means if you have these loops
             # or branching paths, you should move them to their own method.
-            handle_new_order()
+            handle_new_order(main_inventory)
         elif user_action == '5':
             break
 
