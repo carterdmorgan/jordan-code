@@ -1,5 +1,7 @@
 
 
+
+
 class Robot:
 
     COMPASS = {
