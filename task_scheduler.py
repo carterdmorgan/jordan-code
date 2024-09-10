@@ -15,9 +15,7 @@ class TaskScheduler:
         
     }
 
-    def __init__(self, tasks = None) -> None:
-        if tasks is None:
-            tasks = {}
+    def __init__(self, tasks = {}) -> None:
         self.tasks = tasks
 
     def validate_task(self, task = None):
