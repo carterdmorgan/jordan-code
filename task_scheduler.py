@@ -15,10 +15,12 @@ class TaskScheduler:
         
     }
 
-    def __init__(self, tasks = {}) -> None:
+    def __init__(self, tasks = None) -> None:
+        if tasks is None:
+            tasks = {}
         self.tasks = tasks
 
-    def validate_task(self, task):
+    def validate_task(self, task = None):
         if task is None:
             raise ValueError('No task by that name')
 
@@ -41,9 +43,12 @@ class TaskScheduler:
     
     def complete_task(self, name: str):
         current_task = self.tasks.get(name, None)
-        if current_task is not None:
+        try:
+            self.validate_task(current_task)
             current_task.completed = True
             self.tasks.pop(name)
+        except ValueError as e:
+            print({e})
             
     def get_overdue_tasks(self, current_time: str):
         current_datetime = dt.strptime(current_time, '%Y-%m-%d %H:%M')
