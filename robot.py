@@ -47,12 +47,11 @@ def main():
         user_action = input('What would you like to do?\n').upper()
         # digit entered either activates that robot or creates and activates a new one
         if user_action.isdigit():
-            if user_action in robot_dict.keys():
-                print(f'Now controlling robot {user_action}\n')
-            elif user_action not in robot_dict.keys():
+            if user_action not in robot_dict.keys():
                 robot_dict[user_action] = Robot()
-                print(f'Robot {user_action} created. Now controlling robot {user_action}\n')
+                print(f'Robot {user_action} created.')
 
+            print(f'Now controlling robot {user_action}\n')
             current_robot = robot_dict[user_action]
             
         elif user_action not in command_list:
