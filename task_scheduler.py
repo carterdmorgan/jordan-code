@@ -51,9 +51,9 @@ class TaskScheduler:
     def get_overdue_tasks(self, current_time: str):
         current_datetime = dt.strptime(current_time, '%Y-%m-%d %H:%M')
         overdue_tasks = []
-        for key, obj in self.tasks.items():
-            if obj.deadline < current_datetime:
-                overdue_tasks.append(obj.name)
+        for value in self.tasks.values():
+            if value.deadline < current_datetime:
+                overdue_tasks.append(value.name)
         return overdue_tasks
 
 
