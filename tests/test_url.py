@@ -9,6 +9,7 @@ class URLTest(unittest.TestCase):
     def setUp(self):
         self.long_url = 'www.homestarrunner.com'
         self.short_url = '4e0080'
+        URL.URL_DICT = {}
 
     def test_shorten_url(self):
         test_short_url = URL.shorten_url(self.long_url)
