@@ -1,0 +1,22 @@
+URL Shortener
+
+Class: URL(self, long url, short url, access count)
+
+URL List = {}
+
+shorten_url: take the url objects long url and set the short, then return it
+    generate unique short url and assign it to a newly created url objects
+    make it unique by refercing the index of the object in the dictionary
+    check if it exists (in or get), if it does, then just return 
+
+get long url: take short and return long
+    get key from value
+    throw value error
+    make sure to catch
+
+get access count:
+    get URL object from dictionary using short url, return it's count. 
+
+
+
+
