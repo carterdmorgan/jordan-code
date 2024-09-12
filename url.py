@@ -19,6 +19,7 @@ class URL:
             return getattr(url_check, 'short_url')
         elif url_check is None:
             new_url_obj = URL(long_url)
+
             # hash long_url to create unique short_url
             hash_obj = hashlib.shake_256(long_url.encode())
             short_url = hash_obj.hexdigest(3)
@@ -53,5 +54,10 @@ class URL:
             raise ValueError
     
 def main():
+    my_url = URL('www.homestarrunner.com').long_url
+    my_short_url = URL.shorten_url(my_url)
+    print(my_short_url)
+    print(URL.get_long_url(my_short_url))
+    print(URL.get_access_count(my_short_url))
     print('End of line')
 main()
