@@ -38,7 +38,8 @@ class URLTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             URL_Shortener.get_access_count(self.short_url)
 
-
+if __name__ == "__main__":
+    unittest.main()
 
     
 

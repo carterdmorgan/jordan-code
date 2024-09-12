@@ -66,4 +66,6 @@ def main():
     print(URL_Shortener.get_long_url(my_short_url))
     print(URL_Shortener.get_access_count(my_short_url))
     print('End of line')
-main()
+
+if __name__ == '__main__':    
+    main()
