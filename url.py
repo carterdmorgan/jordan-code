@@ -1,19 +1,25 @@
 import hashlib
 
+
 class URL:
     # key: long_url, value: URL()
-    URL_DICT = {}
+    url_dict = {}
 
     def __init__(self, long_url: str) -> None:
         self.long_url = long_url
         self.short_url = "short_url"
         self.access_count = 0
 
+
+class URL_Shortener:
+    def __init__(self) -> None:
+        pass
+
     def shorten_url(long_url):
         if long_url.startswith('www.') is False:
             raise ValueError
               
-        url_check = URL.URL_DICT.get(long_url)
+        url_check = URL.url_dict.get(long_url)
 
         if url_check is not None:
             return getattr(url_check, 'short_url')
@@ -24,13 +30,13 @@ class URL:
             hash_obj = hashlib.shake_256(long_url.encode())
             short_url = hash_obj.hexdigest(3)
             new_url_obj.short_url = str(short_url)
-            URL.URL_DICT[long_url] = new_url_obj
+            URL.url_dict[long_url] = new_url_obj
             return new_url_obj.short_url
         
     def get_long_url(short_url: str):
         url_obj = None
 
-        for key, obj in URL.URL_DICT.items():
+        for key, obj in URL.url_dict.items():
             if getattr(obj, 'short_url') == short_url:
                 url_obj = obj
                 break
@@ -44,7 +50,7 @@ class URL:
     def get_access_count(short_url: str):
         url_obj = None
 
-        for key, obj in URL.URL_DICT.items():
+        for key, obj in URL.url_dict.items():
             if getattr(obj, 'short_url') == short_url:
                 url_obj = obj
                 break
@@ -55,9 +61,9 @@ class URL:
     
 def main():
     my_url = URL('www.homestarrunner.com').long_url
-    my_short_url = URL.shorten_url(my_url)
+    my_short_url = URL_Shortener.shorten_url(my_url)
     print(my_short_url)
-    print(URL.get_long_url(my_short_url))
-    print(URL.get_access_count(my_short_url))
+    print(URL_Shortener.get_long_url(my_short_url))
+    print(URL_Shortener.get_access_count(my_short_url))
     print('End of line')
 main()
