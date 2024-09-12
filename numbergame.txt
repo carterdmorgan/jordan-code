@@ -1,0 +1,9 @@
+Number game
+
+import random, use randint
+guess counter = 7
+input validation on guesses, does not count toward total
+hints should be in a set
+congratulatory message (if time, for fun)
+
+formatted_number = f"{random_number:04}"
